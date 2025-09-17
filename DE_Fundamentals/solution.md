@@ -1,7 +1,9 @@
+### Overview
 This is a Data solution for Beejan Technologies, designed to build a data flow pipeline for managing customer complaints. This solution aims to collect data from various sources in different formats, integrate, clean, transform, and enrich the data, and make it readily available and easily accessible to downstream users for further decision-making. Below is a step-by-step breakdown to guide the design and building of the data pipeline.
+
 <img width="2480" height="1500" alt="Conceptual_data_pipeline" src="https://github.com/user-attachments/assets/76770659-5aa8-4b85-b8ed-c8092c823732" />
 
-1. Source Identification
+##### 1. Source Identification
 * Data Sources: The primary sources of the customer complaints are
     * Social Media 
     * Call Center Log Files
@@ -13,8 +15,8 @@ This is a Data solution for Beejan Technologies, designed to build a data flow p
   * Unstructured Data: part of social media (text, images, videos, etc.)
 * Frequency: Both Batch and Streaming.
 
-Ingestion Strategy
-A hybrid approach will be implemented, using Batch and micro-batching. Real-time data sources such as Social Media, SMS and Website Forms that require immediate attention and real-time streaming will be ingested via micro-batching (every 2 - 5 minutes). The reason is to maintain nearly real-time ingestion while being cost-effective. This will involve using API ingestion for social media. Whereas a traditional Batch will be used for Call Center log files via file uploads.
+##### 2. Ingestion Strategy
+   *A hybrid approach will be implemented, using Batch and micro-batching. Real-time data sources such as Social Media, SMS and Website Forms that require immediate attention and real-time streaming will be ingested via micro-batching (every 2 - 5 minutes). The reason is to maintain nearly real-time ingestion while being cost-effective. This will involve using API ingestion for social media. Whereas a traditional Batch will be used for Call Center log files via file uploads.
 
 Processing/Transformation
 Data Cleaning and Standardisation: This stage focuses on cleaning the data and ensuring it’s in a useful and unified format. Based on assumptions about how the raw data will be, the following can be carried out to ensure it’s clean and standardised.
