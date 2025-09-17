@@ -2,16 +2,16 @@ This is a Data solution for Beejan Technologies, designed to build a data flow p
 <img width="2480" height="1500" alt="Conceptual_data_pipeline" src="https://github.com/user-attachments/assets/76770659-5aa8-4b85-b8ed-c8092c823732" />
 
 1. Source Identification
-  * Data Sources: The primary sources of the customer complaints are
+* Data Sources: The primary sources of the customer complaints are
     * Social Media 
     * Call Center Log Files
-    *SMS
-Website Forms
-Formats: Data is available in different formats, which are
-Structured Data: Call Center Log Files are assumed to be CSV.
-Semi-Structured Data: SMS, some part of Social Media data and Website forms, which can potentially come in JSON or XML.
-Unstructured Data: part of social media (text, images, videos, etc.)
-Frequency: Both Batch and Streaming.
+    * SMS
+    * Website Forms
+* Formats: Data is available in different formats, which are
+  * Structured Data: Call Center Log Files are assumed to be CSV.
+  * Semi-Structured Data: SMS, some part of Social Media data and Website forms, which can potentially come in JSON or XML.
+  * Unstructured Data: part of social media (text, images, videos, etc.)
+* Frequency: Both Batch and Streaming.
 
 Ingestion Strategy
 A hybrid approach will be implemented, using Batch and micro-batching. Real-time data sources such as Social Media, SMS and Website Forms that require immediate attention and real-time streaming will be ingested via micro-batching (every 2 - 5 minutes). The reason is to maintain nearly real-time ingestion while being cost-effective. This will involve using API ingestion for social media. Whereas a traditional Batch will be used for Call Center log files via file uploads.
