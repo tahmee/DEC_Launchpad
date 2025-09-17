@@ -51,6 +51,19 @@ In this stage, other forms of transformation can still occur beyond those mentio
 
 ### 7. DataOps
 * The pipeline will run on a cloud-based infrastructure to leverage managed services, ensure scalability, flexibility, global accessibility, reliability and cost efficiency.
+* **Production Deployment:**
+   * Version control will be used to manage code (tracking any changes, etc.)
+   * All pipeline scripts will be tested and automated.
+   * Implement CI/CD to manage the pipeline, including building, testing, and deployment.
+   * The pipeline will be deployed once all tests have been passed.
+
+### Assumptions
+* The data source for social media includes posts, mentions, and DMs from platforms limited to X (fka Twitter), Instagram, and Facebook. The website forms are assumed to be collected from the company's website.
+* It's assumed that the raw data is "messy," containing duplicates, missing values, and inconsistent formatting.
+* Given the nature of the data (complaints), it needs to be made available promptly so that action can be taken.
+* The data collected from customers is assumed to include user data such as name, phone number, location, date of complaint, and the complaint itself.
+* Call center log files are assumed to be generated from calls that have already been attended to, hence not being an urgent source of data. The logs are also considered to come in a structured CSV format.
+
 
 
 
