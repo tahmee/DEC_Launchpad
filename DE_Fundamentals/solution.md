@@ -30,7 +30,7 @@ In this stage, other forms of transformation can still occur beyond those mentio
 
 ### 4. Storage Options
 * Both a data lake and a data warehouse will be used as storage. A data lake will hold the raw data once ingested. Processing and transformation of the data also occur here. The transformed data will be loaded into a data warehouse for further use by downstream users.
-** Reason: **  A data lake is flexible to store different data formats and types.
+**Reason:**  A data lake is flexible to store different data formats and types.
 * The cleaned data will be stored in parquet format. This format allows high compression ratios, which reduces memory cost. Fast data retrieval and query performance are enabled due to its columnar structure. Hence, making this the most efficient format for analytical queries.
 
 ### 5. Serving
@@ -48,7 +48,7 @@ In this stage, other forms of transformation can still occur beyond those mentio
 * Failure Detection & Notification: The orchestration system will feature a robust monitoring system that generates detailed logs to track the data flow, and external messaging systems will be utilised to receive alerts on pipepile failure or other issues.
 
 ### 7. DataOps
-The pipeline will run on a cloud-based infrastructure to leverage managed services, ensure scalability, flexibility, global accessibility, reliability and cost efficiency.
+* The pipeline will run on a cloud-based infrastructure to leverage managed services, ensure scalability, flexibility, global accessibility, reliability and cost efficiency.
 
 
 
