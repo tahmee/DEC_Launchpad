@@ -1,5 +1,5 @@
 ## Overview
-This is a Data solution for Beejan Technologies, designed to build a data flow pipeline for managing customer complaints. This solution aims to collect data from various sources in different formats, integrate, clean, transform, and enrich the data, and make it readily available and easily accessible to downstream users for further decision-making. Below is a step-by-step breakdown to guide the design and building of the data pipeline.
+This is a Data solution for Beejan Technologies (a fictional company), designed to build a data flow pipeline for managing customer complaints. This solution aims to collect data from various sources in different formats, integrate, clean, transform, and enrich the data, and make it readily available and easily accessible to downstream users for further decision-making. Below is a step-by-step breakdown to guide the design and building of the data pipeline.
 
 
 <img width="2480" height="1500" alt="Conceptual_data_pipeline" src="https://github.com/user-attachments/assets/76770659-5aa8-4b85-b8ed-c8092c823732" />
@@ -63,16 +63,5 @@ In this stage, other forms of transformation can still occur beyond those mentio
 * Given the nature of the data (complaints), it needs to be made available promptly so that action can be taken.
 * The data collected from customers is assumed to include user data such as name, phone number, location, date of complaint, and the complaint itself.
 * Call center log files are assumed to be generated from calls that have already been attended to, hence not being an urgent source of data. The logs are also considered to come in a structured CSV format.
-
-
-
-
-
-
-
-
-
-
-
 
 
