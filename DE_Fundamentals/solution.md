@@ -3,8 +3,8 @@ This is a Data solution for Beejan Technologies, designed to build a data flow p
 
 1. Source Identification
 * Data Sources: The primary sources of the customer complaints are
-Social Media 
-Call Center Log Files
+** Social Media 
+** Call Center Log Files
 SMS
 Website Forms
 Formats: Data is available in different formats, which are
