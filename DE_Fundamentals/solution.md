@@ -2,10 +2,10 @@ This is a Data solution for Beejan Technologies, designed to build a data flow p
 <img width="2480" height="1500" alt="Conceptual_data_pipeline" src="https://github.com/user-attachments/assets/76770659-5aa8-4b85-b8ed-c8092c823732" />
 
 1. Source Identification
-* Data Sources: The primary sources of the customer complaints are
-** Social Media 
-** Call Center Log Files
-SMS
+  * Data Sources: The primary sources of the customer complaints are
+    * Social Media 
+    * Call Center Log Files
+    *SMS
 Website Forms
 Formats: Data is available in different formats, which are
 Structured Data: Call Center Log Files are assumed to be CSV.
