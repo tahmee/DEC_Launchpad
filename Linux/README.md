@@ -1,4 +1,4 @@
-# Automated Data Processing Pipeline – DEC Launchpad Linux Task
+# Automated Data Processing Pipeline
 This directory contains my solution for the DEC Launchpad Linux task, which involves setting up an automated data processing pipeline.
 The project demonstrates concepts such as file manipulation, automation, permissions management, scheduling with cron, and logging in a Linux environment.
 
@@ -131,6 +131,7 @@ Scheduled pipeline runs with cron.
 Implemented logging and monitoring to detect errors.
 
 Applied permission management for security.
+
 
 
 
