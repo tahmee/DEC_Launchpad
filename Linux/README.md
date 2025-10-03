@@ -7,6 +7,7 @@ The project demonstrates concepts such as file manipulation, automation, permiss
 [Automating with Cron](#Automating-with-Cron)  
 [Monitoring Logs for  Errors](#Monitoring-logs-for-Errors)  
 [Managing Permissions](#Managing-Permissions)
+
 ---
 ## Getting Started
 ### 1. Set up the Environment
@@ -131,6 +132,7 @@ Scheduled pipeline runs with cron.
 Implemented logging and monitoring to detect errors.
 
 Applied permission management for security.
+
 
 
 
