@@ -18,7 +18,7 @@ mkdir -p ~/data_pipeline/{input,output,logs}
 - ~ – home directory
 - data_pipeline/ – parent directory
 - input/, output/, logs/ – subdirectories
-
+\n
 ## Data Ingestion and Preprocessing
 ### Step 1: Transfer the CSV File
 
@@ -125,3 +125,4 @@ Scheduled pipeline runs with cron.
 Implemented logging and monitoring to detect errors.
 
 Applied permission management for security.
+
