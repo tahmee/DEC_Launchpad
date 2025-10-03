@@ -9,6 +9,7 @@ The project demonstrates concepts such as file manipulation, automation, permiss
 [Managing Permissions](#Managing-Permissions)
 
 ---
+
 ## Getting Started
 ### 1. Set up the Environment
 
@@ -24,7 +25,19 @@ mkdir -p ~/data_pipeline/{input,output,logs}
 
 - ~ – home directory
 - data_pipeline/ – parent directory
-- input/, output/, logs/ – subdirectories  
+- input/, output/, logs/ – subdirectories
+
+## Project structure
+```md
+.
+├── preprocess.sh           # cleans and filters CSV data 
+├── monitor.sh              # scans logs for errors            
+├── logs/                   # generated log files
+├── input/
+    ├── sales_data.csv      # raw CSV data
+├── output/                 # cleaned files
+└── README.md
+```
 ---
 ## Data Ingestion and Preprocessing
 ### Step 1: Transfer the CSV File
@@ -113,10 +126,12 @@ fi
 
 ## Managing Permissions
 ---
-Ensure correct file permissions for your scripts and directories. For example:
+Ensure correct file permissions for the scripts and directories. 
 ```shell
-chmod 700 ~/data_pipeline/monitor.sh
-chmod 700 ~/data_pipeline/preprocess.sh
+chmod 755 ~/data_pipeline/input/
+chmod 711 ~/data_pipeline/logs/
+chmod 755 ~/data_pipeline/preprocess.sh
+chmod 755 ~/data_pipeline/monitor.sh
 ```
 
 This ensures only the owner can read, write, and execute the scripts.
@@ -132,6 +147,7 @@ Scheduled pipeline runs with cron.
 Implemented logging and monitoring to detect errors.
 
 Applied permission management for security.
+
 
 
 
