@@ -5,7 +5,7 @@ The project demonstrates concepts such as file manipulation, automation, permiss
 [Getting Started](#Getting-started)  
 [Data Ingestionand Preprocessing](#Data-Ingestion-and-Preprocessing)  
 [Automating with Cron](#Automating-with-Cron)  
-[Monitoring Logs for  Errors](#Monitoring-logs-for-Errors)
+[Monitoring Logs for  Errors](#Monitoring-logs-for-Errors)  
 [Managing Permissions](#Managing-Permissions)
 
 ## Getting Started
@@ -131,6 +131,7 @@ Scheduled pipeline runs with cron.
 Implemented logging and monitoring to detect errors.
 
 Applied permission management for security.
+
 
 
 
