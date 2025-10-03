@@ -7,7 +7,7 @@ The project demonstrates concepts such as file manipulation, automation, permiss
 [Automating with Cron](#Automating-with-Cron)  
 [Monitoring Logs for  Errors](#Monitoring-logs-for-Errors)  
 [Managing Permissions](#Managing-Permissions)
-
+---
 ## Getting Started
 ### 1. Set up the Environment
 
@@ -24,7 +24,7 @@ mkdir -p ~/data_pipeline/{input,output,logs}
 - ~ – home directory
 - data_pipeline/ – parent directory
 - input/, output/, logs/ – subdirectories  
-  
+---
 ## Data Ingestion and Preprocessing
 ### Step 1: Transfer the CSV File
 
@@ -65,7 +65,7 @@ chmod +x preprocess.sh
 ```shell
 ls -l preprocess.sh
 ```
-
+---
 ## Automating with Cron
 
 To run the preprocessing script every day at midnight (12:00 AM), add a cron job:
@@ -84,7 +84,7 @@ crontab -l
 ```
 
 ## Monitoring Logs for Errors
-
+---
 To track errors, a monitoring script (monitor.sh) is created:
 ```shell
 #!/bin/bash
@@ -111,7 +111,7 @@ fi
 ```
 
 ## Managing Permissions
-
+---
 Ensure correct file permissions for your scripts and directories. For example:
 ```shell
 chmod 700 ~/data_pipeline/monitor.sh
@@ -131,6 +131,7 @@ Scheduled pipeline runs with cron.
 Implemented logging and monitoring to detect errors.
 
 Applied permission management for security.
+
 
 
 
