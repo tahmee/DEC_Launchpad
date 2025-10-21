@@ -16,15 +16,6 @@ GROUP BY c.customer_id, c.full_name
 ORDER BY total_revenue DESC;
 
 -- Return the top 5 customers by total_revenue with their rank
-SELECT c.full_name,
-    SUM(o.total_amount) AS total_revenue,
-    RANK() OVER(ORDER BY SUM(o.total_amount) DESC) AS rank
-FROM customers c
-JOIN orders o
-USING (customer_id)
-GROUP BY c.customer_id, c.full_name
-LIMIT 5;
-
 SELECT full_name,
     total_revenue,
     RANK() OVER (ORDER BY total_revenue DESC) AS rank
