@@ -13,7 +13,7 @@ The project demonstrates concepts such as file manipulation, automation, permiss
 ## Getting Started
 ### 1. Set up the Environment
 
-For this project, I used a Linux Virtual Machine (VM), but all commands are also executable in a local environment (e.g., Git Bash, WSL, etc).
+For this project, A Linux Virtual Machine (VM), but all commands are also executable in a local environment (e.g. Mac terminal, Git Bash, WSL, etc).
 
 ### 2. Create the Project Directories
 
@@ -40,12 +40,16 @@ mkdir -p ~/data_pipeline/{input,output,logs}
 ```
 ---
 ## Data Ingestion and Preprocessing
+
 ### Step 1: Transfer the CSV File
 
-If the data is stored locally, use scp to copy the file into the input directory on the remote server:
+The csv file used can be found in this repository and downloaded to your local machine.
+The file was already stored locally, hence the  command **scp** was used to copy the file into the input directory on the remote server:
 ```shell
 scp /home/my/local/path/sales_data.csv username@remote_host:~/data_pipeline/input
 ```
+To get copy the file between directories in your local machine, the command **cp** should be used.
+
 ### Step 2: Create the Preprocessing Script
 
 A bash script called preprocess.sh is created to clean and process the data.
