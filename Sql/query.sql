@@ -29,8 +29,7 @@ SELECT full_name,
     total_revenue,
     RANK() OVER (ORDER BY total_revenue DESC) AS rank
 FROM (
-    SELECT 
-        c.customer_id,
+    SELECT c.customer_id,
         c.full_name,
         SUM(o.total_amount) AS total_revenue
     FROM customers c
@@ -42,5 +41,10 @@ LIMIT 5;
 
 -- Produce a table with year, month, monthly_revenue for all months in 2023 ordered chronologically
 SELECT EXTRACT (YEAR FROM order_date) AS order_year,
-    EXTRACT (MONTH FROM order_date) AS 
+    EXTRACT (MONTH FROM order_date) AS order_month,
+    SUM(total_amount) AS monthly_revenue
 FROM orders
+GROUP BY order_year, order_month
+ORDER BY order_year, order_month;
+
+ -- 
