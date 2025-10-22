@@ -11,7 +11,7 @@ Sort descending */
 -- ----------------------------------------------
 SELECT c.customer_id,
     c.full_name,
-    SUM(o.total_amount) AS total_revenue
+    SUM(o.total_amount), AS total_revenue
 FROM customers c
 JOIN orders o
 USING (customer_id)
@@ -63,7 +63,6 @@ ORDER BY order_year, order_month;
 /* Find customers with no orders in the last 60 days relative to 2023-12-31 (i.e consider last active date
 up to 2023-12-31. Return customer_id, full_name, last_order_date */
 -- ----------------------------------------------
-
 WITH last_order_date AS (
     -- the query returns the highest order date as the last order date
     SELECT customer_id,
@@ -85,7 +84,6 @@ WHERE lod.last_order_date <= '2023-11-01'
 /* Calculate the average order value (AOV) for each customer: return customer_id, full_name, aov (average 
 total_amount of their orders). Exclude customers with no orders */
 -- ----------------------------------------------
-
 SELECT c.customer_id,
     c.full_name,
     ROUND(AVG(o.total_amount), 2) AS aov
@@ -98,25 +96,8 @@ ORDER BY aov DESC;
 
 -- ----------------------------------------------
 /* For all customers who have at least one order, compute customer_id, full_name, total_revenue, spend_rank
-where spend_rank is a dense rank highest spender = rank 1 */
+where spend_rank is a dense rank. Highest spender = rank 1 */
 -- ----------------------------------------------
-
-WITH highest_spender AS (
-    SELECT c.customer_id,
-        c.full_name,
-        SUM(o.total_amount) AS total_revenue
-    FROM customers c 
-    INNER JOIN orders o
-    USING (customer_id)
-    GROUP BY c.customer_id, c.full_name
-)
-SELECT customer_id,
-    full_name,
-    total_revenue,
-    DENSE_RANK() OVER (ORDER BY total_revenue DESC) AS spend_rank
-FROM highest_spender
-ORDER BY total_revenue DESC, customer_id;
-
 SELECT c.customer_id,
        c.full_name,
        SUM(o.total_amount) AS total_revenue,
@@ -144,7 +125,6 @@ HAVING COUNT(o.order_id) > 1;
 -- ----------------------------------------------
 -- Compute total loyalty points per customer. Include customers with 0 points
 -- ----------------------------------------------
-
 SELECT c.customer_id,
     c.full_name,
     COALESCE(SUM(l.points_earned), 0) AS total_loyalty_points
@@ -162,7 +142,6 @@ Gold: >= 500
 
 output: tier, tier_count, tier_count_points*/
 -- ----------------------------------------------
-
 WITH customer_loyalty_points AS (
     SELECT c.customer_id,
         c.full_name,
@@ -201,20 +180,34 @@ ORDER BY
 /* Identify customers who spent more than 50,000 in total but have less than 200 loyalty points.
 Return customer_id, full_name, total_spend, total_points */
 -- ----------------------------------------------
-
-WITH point_spend_total AS (
-    SELECT c.customer_id,
-    c.full_name,
-    SUM(o.total_amount) AS total_spend,
-    SUM(l.points_earned) AS total_points
-FROM orders o
-LEFT JOIN customers c
-USING (customer_id)
-LEFT JOIN loyalty_points l
-USING (customer_id)
-GROUP BY c.customer_id, c.full_name
+WITH spend_total AS (
+    SELECT customer_id,
+    SUM(total_amount) AS total_spend
+FROM orders
+GROUP BY customer_id
+),
+points_total AS (
+    SELECT customer_id,
+        SUM(points_earned) AS total_points
+    FROM loyalty_points
+    GROUP BY customer_id
 )
-SELECT *
-FROM point_spend_total
-WHERE total_spend > 50000
-    AND total_points < 200;
+SELECT c.customer_id,
+    c.full_name,
+    -- Get Spend, replace NULL (no orders) with 0
+    COALESCE(st.total_spend, 0) AS total_spend,
+    -- Get Points, replace NULL (no points) with 0
+    COALESCE(pt.total_points, 0) AS total_points
+FROM customers c
+
+LEFT JOIN spend_total st
+USING (customer_id)
+LEFT JOIN points_total pt
+USING (customer_id)
+WHERE COALESCE(st.total_spend, 0) > 50000
+    AND COALESCE(pt.total_points, 0) < 200
+    
+-- ----------------------------------------------
+/* Identify customers who spent more than 50,000 in total but have less than 200 loyalty points.
+Return customer_id, full_name, total_spend, total_points */
+-- ----------------------------------------------
