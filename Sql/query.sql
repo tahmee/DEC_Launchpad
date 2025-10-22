@@ -63,7 +63,7 @@ ORDER BY order_year, order_month;
 /* Find customers with no orders in the last 60 days relative to 2023-12-31 (i.e consider last active date
 up to 2023-12-31. Return customer_id, full_name, last_order_date */
 -- ----------------------------------------------
-WITH last_order_date AS (
+WITH customer_order_date AS (
     -- the query returns the highest order date as the last order date
     SELECT customer_id,
         MAX(order_date) AS last_order_date
@@ -73,12 +73,12 @@ WITH last_order_date AS (
 -- compares customer's last order if it's less than 2023-11-01 which is the assumed date 60 days before 2023-12-31
 SELECT c.customer_id,
     c.full_name,
-    lod.last_order_date
+    cod.last_order_date
 FROM customers c 
-LEFT JOIN last_order_date lod
+LEFT JOIN customer_order_date cod
 USING (customer_id)  
-WHERE lod.last_order_date <= '2023-11-01'
-    OR lod.last_order_date IS NULL
+WHERE cod.last_order_date <= '2023-11-01'
+    OR cod.last_order_date IS NULL
 
 -- ----------------------------------------------
 /* Calculate the average order value (AOV) for each customer: return customer_id, full_name, aov (average 
@@ -208,6 +208,41 @@ WHERE COALESCE(st.total_spend, 0) > 50000
     AND COALESCE(pt.total_points, 0) < 200
     
 -- ----------------------------------------------
-/* Identify customers who spent more than 50,000 in total but have less than 200 loyalty points.
-Return customer_id, full_name, total_spend, total_points */
+/* Flag customers as churn_risk if they have no orders in the last 90 days (relative to 2023-12-31) AND are in the Bronze tier. 
+Return customer_id, full_name, last_order, total_points*/
 -- ----------------------------------------------
+WITH customer_order_date AS (
+    SELECT customer_id,
+        MAX(order_date) AS last_order_date
+    FROM orders
+    GROUP BY customer_id
+),
+customer_point_tier AS (
+    SELECT c.customer_id,
+        COALESCE(SUM(l.points_earned), 0) AS total_points,
+        CASE 
+            WHEN  COALESCE(SUM(l.points_earned), 0) >= 500 THEN 'Gold' 
+            WHEN  COALESCE(SUM(l.points_earned), 0) >= 100 THEN 'Silver'
+            ELSE  'Bronze'
+        END AS loyalty_tier
+    FROM customers c
+    LEFT JOIN loyalty_points l
+    USING (customer_id)
+    GROUP BY c.customer_id
+)
+SELECT 
+    c.customer_id,
+    c.full_name,
+    cod.last_order_date AS last_order,
+    cpt.total_points
+FROM customers c
+LEFT JOIN customer_order_date cod 
+USING (customer_id)
+LEFT JOIN customer_point_tier cpt 
+USING (customer_id)
+WHERE cpt.loyalty_tier = 'Bronze' 
+    AND (
+        cod.last_order_date <= '2023-10-02' 
+        OR cod.last_order_date IS NULL    
+    );
+
