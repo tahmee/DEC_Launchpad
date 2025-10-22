@@ -197,3 +197,24 @@ ORDER BY
         WHEN 'Bronze' THEN 3
     END;
 
+-- ----------------------------------------------
+/* Identify customers who spent more than 50,000 in total but have less than 200 loyalty points.
+Return customer_id, full_name, total_spend, total_points */
+-- ----------------------------------------------
+
+WITH point_spend_total AS (
+    SELECT c.customer_id,
+    c.full_name,
+    SUM(o.total_amount) AS total_spend,
+    SUM(l.points_earned) AS total_points
+FROM orders o
+LEFT JOIN customers c
+USING (customer_id)
+LEFT JOIN loyalty_points l
+USING (customer_id)
+GROUP BY c.customer_id, c.full_name
+)
+SELECT *
+FROM point_spend_total
+WHERE total_spend > 50000
+    AND total_points < 200;
