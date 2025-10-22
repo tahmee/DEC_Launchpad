@@ -96,3 +96,37 @@ USING(customer_id)
 GROUP BY c.customer_id, c.full_name
 ORDER BY aov DESC;
 
+-- ----------------------------------------------
+/* For all customers who have at least one order, compute customer_id, full_name, total_revenue, spend_rank
+where spend_rank is a dense rank highest spender = rank 1 */
+-- ----------------------------------------------
+
+WITH highest_spender AS (
+    SELECT c.customer_id,
+        c.full_name,
+        SUM(o.total_amount) AS total_revenue
+    FROM customers c 
+    INNER JOIN orders o
+    USING (customer_id)
+    GROUP BY c.customer_id, c.full_name
+)
+SELECT customer_id,
+    full_name,
+    total_revenue,
+    DENSE_RANK() OVER (ORDER BY total_revenue DESC) AS spend_rank
+FROM highest_spender
+ORDER BY total_revenue DESC, customer_id;
+
+SELECT c.customer_id,
+       c.full_name,
+       SUM(o.total_amount) AS total_revenue,
+       DENSE_RANK() OVER (ORDER BY SUM(o.total_amount) DESC) AS spend_rank
+FROM customers c
+INNER JOIN orders o USING (customer_id)
+GROUP BY c.customer_id, c.full_name
+ORDER BY total_revenue DESC, c.customer_id;
+
+-- ----------------------------------------------
+/* List customers who placed more than 1 order and show customer_id, full_name, order_count,
+first_order_date, last_order_date */
+-- ----------------------------------------------
