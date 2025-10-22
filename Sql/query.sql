@@ -143,6 +143,7 @@ Gold: >= 500
 output: tier, tier_count, tier_count_points*/
 -- ----------------------------------------------
 WITH customer_loyalty_points AS (
+    -- Get total loyalty points per customer
     SELECT c.customer_id,
         c.full_name,
         COALESCE(SUM(l.points_earned), 0) AS total_loyalty_points
@@ -155,6 +156,7 @@ customer_tier AS (
     SELECT customer_id,
     full_name,
     total_loyalty_points,
+    -- Group loyalty points into tiers: Bronze, Silver and Gold, return category as loyalty_tier;
     CASE 
         WHEN  total_loyalty_points >= 500 THEN 'Gold' 
         WHEN  total_loyalty_points >= 100 THEN 'Silver'
@@ -181,12 +183,14 @@ ORDER BY
 Return customer_id, full_name, total_spend, total_points */
 -- ----------------------------------------------
 WITH spend_total AS (
+    -- Get total spend per customer
     SELECT customer_id,
     SUM(total_amount) AS total_spend
 FROM orders
 GROUP BY customer_id
 ),
 points_total AS (
+    -- Get total points per customer
     SELECT customer_id,
         SUM(points_earned) AS total_points
     FROM loyalty_points
@@ -199,7 +203,6 @@ SELECT c.customer_id,
     -- Get Points, replace NULL (no points) with 0
     COALESCE(pt.total_points, 0) AS total_points
 FROM customers c
-
 LEFT JOIN spend_total st
 USING (customer_id)
 LEFT JOIN points_total pt
@@ -212,14 +215,17 @@ WHERE COALESCE(st.total_spend, 0) > 50000
 Return customer_id, full_name, last_order, total_points*/
 -- ----------------------------------------------
 WITH customer_order_date AS (
+    -- Get the last order date per customer
     SELECT customer_id,
         MAX(order_date) AS last_order_date
     FROM orders
     GROUP BY customer_id
 ),
 customer_point_tier AS (
+    -- Return necessary field. Use COALESCE to capture NULL values, so those customers are not excluded
     SELECT c.customer_id,
         COALESCE(SUM(l.points_earned), 0) AS total_points,
+        -- Group loyalty points into tiers: Bronze, Silver and Gold, return category as loyalty_tier;
         CASE 
             WHEN  COALESCE(SUM(l.points_earned), 0) >= 500 THEN 'Gold' 
             WHEN  COALESCE(SUM(l.points_earned), 0) >= 100 THEN 'Silver'
@@ -230,8 +236,8 @@ customer_point_tier AS (
     USING (customer_id)
     GROUP BY c.customer_id
 )
-SELECT 
-    c.customer_id,
+-- Join all customer table and CTEs to retrieve required fields and filter
+SELECT c.customer_id,
     c.full_name,
     cod.last_order_date AS last_order,
     cpt.total_points
@@ -240,6 +246,7 @@ LEFT JOIN customer_order_date cod
 USING (customer_id)
 LEFT JOIN customer_point_tier cpt 
 USING (customer_id)
+-- Filter records by the required condition to flag customers as churn risk
 WHERE cpt.loyalty_tier = 'Bronze' 
     AND (
         cod.last_order_date <= '2023-10-02' 
