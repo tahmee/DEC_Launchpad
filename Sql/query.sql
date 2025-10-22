@@ -153,3 +153,31 @@ LEFT JOIN loyalty_points l
 USING (customer_id)
 GROUP BY c.full_name, c.customer_id
 ORDER BY total_loyalty_points DESC;
+
+-- ----------------------------------------------
+/* Assign loyalty tiers based on total points:
+Bronze: < 100
+Silver: 100 - 499
+Gold: >= 500
+*/
+-- ----------------------------------------------
+
+WITH customer_loyalty_points AS (
+    SELECT c.customer_id,
+        c.full_name,
+        COALESCE(SUM(l.points_earned), 0) AS total_loyalty_points
+    FROM customers c
+    LEFT JOIN loyalty_points l
+    USING (customer_id)
+    GROUP BY c.full_name, c.customer_id
+)
+SELECT customer_id,
+    full_name,
+    total_loyalty_points,
+    CASE 
+        WHEN  total_loyalty_points >= 500 THEN 'Gold' 
+        WHEN  total_loyalty_points >= 100 THEN 'Silver'
+        ELSE  'Bronze'
+    END AS loyalty_tiers
+    FROM customer_loyalty_points
+    ORDER BY total_loyalty_points, customer_id;
