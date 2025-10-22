@@ -130,3 +130,13 @@ ORDER BY total_revenue DESC, c.customer_id;
 /* List customers who placed more than 1 order and show customer_id, full_name, order_count,
 first_order_date, last_order_date */
 -- ----------------------------------------------
+SELECT c.customer_id,
+    c.full_name,
+    COUNT(o.order_id) AS order_count,
+    MIN(o.order_date) AS first_order_date,
+    MAX(o.order_date) AS last_order_date
+FROM customers c
+INNER JOIN orders o 
+USING (customer_id)
+GROUP BY c.customer_id, c.full_name
+HAVING COUNT(o.order_id) > 1;
