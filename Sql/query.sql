@@ -140,3 +140,16 @@ INNER JOIN orders o
 USING (customer_id)
 GROUP BY c.customer_id, c.full_name
 HAVING COUNT(o.order_id) > 1;
+
+-- ----------------------------------------------
+-- Compute total loyalty points per customer. Include customers with 0 points
+-- ----------------------------------------------
+
+SELECT c.customer_id,
+    c.full_name,
+    COALESCE(SUM(l.points_earned), 0) AS total_loyalty_points
+FROM customers c
+LEFT JOIN loyalty_points l
+USING (customer_id)
+GROUP BY c.full_name, c.customer_id
+ORDER BY total_loyalty_points DESC;
