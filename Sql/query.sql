@@ -65,7 +65,7 @@ up to 2023-12-31. Return customer_id, full_name, last_order_date */
 -- ----------------------------------------------
 
 WITH last_order_date AS (
-    -- the. query returns the highest order date as the last order date
+    -- the query returns the highest order date as the last order date
     SELECT customer_id,
         MAX(order_date) AS last_order_date
     FROM orders
@@ -80,3 +80,19 @@ LEFT JOIN last_order_date lod
 USING (customer_id)  
 WHERE lod.last_order_date <= '2023-11-01'
     OR lod.last_order_date IS NULL
+
+-- ----------------------------------------------
+/* Calculate the average order value (AOV) for each customer: return customer_id, full_name, aov (average 
+total_amount of their orders). Exclude customers with no orders */
+-- ----------------------------------------------
+
+SELECT c.customer_id,
+    c.full_name,
+    ROUND(AVG(o.total_amount), 2) AS aov
+FROM customers c
+--  used an inner join to eliminate records with NULL values
+INNER JOIN orders o
+USING(customer_id)
+GROUP BY c.customer_id, c.full_name
+ORDER BY aov DESC;
+
